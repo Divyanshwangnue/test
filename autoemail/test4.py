@@ -7,22 +7,27 @@ from tqdm import tqdm
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
+import getpass
 
 def fetch_emails(username, password, imap_server, port):
-    mail = imaplib.IMAP4_SSL(imap_server, port)
-    mail.login(username, password)
-    mail.select('inbox')
-
-    status, data = mail.search(None, 'ALL')
-    mail_ids = data[0].split()
-
-    emails = []
-    for i in tqdm(mail_ids, desc="Fetching emails", unit="email"):
-        status, data = mail.fetch(i, '(RFC822)')
-        emails.append(data[0][1])
-
-    mail.logout()
-    return emails
+    try:
+        mail = imaplib.IMAP4_SSL(imap_server, port)
+        mail.login(username, password)
+        mail.select('inbox')
+    
+        status, data = mail.search(None, 'ALL')
+        mail_ids = data[0].split()
+    
+        emails = []
+        for i in tqdm(mail_ids, desc="Fetching emails", unit="email"):
+            status, data = mail.fetch(i, '(RFC822)')
+            emails.append(data[0][1])
+    
+        mail.logout()
+        return emails
+    except imaplib.IMAP4.error as e:
+        print(f"IMAP4 error: {e}")
+        return []
 
 def parse_ftp_details_from_html(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -84,6 +89,9 @@ def save_to_excel(details_list, output_file):
 
 def automate_ftp_extraction(username, password, imap_server, port, output_file):
     emails = fetch_emails(username, password, imap_server, port)
+    if not emails:
+        print("No emails fetched. Check login credentials or server settings.")
+        return
     details = extract_ftp_details_from_emails(emails)
     if details:
         save_to_excel(details, output_file)
@@ -91,10 +99,10 @@ def automate_ftp_extraction(username, password, imap_server, port, output_file):
         print("No details to save.")
 
 # Parameters
-username = "project020304@outlook.com"
-password = "divyansh2004"
+username = input("Enter your email username: ")
+password = getpass.getpass("Enter your email password: ")
 imap_server = "outlook.office365.com"
-port = 993 
+port = 993  # IMAP port as per the image settings
 output_file = "ftp_details.xlsx"
 
 # Execute the function
