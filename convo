@@ -1,9 +1,44 @@
 PS C:\Users\u1324479\OneDrive - MMC\Desktop\extractor> python --version      
 Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases.   
 PS C:\Users\u1324479\OneDrive - MMC\Desktop\extractor> 
-Hi Team , 
+Subject: Assistance Required for FTP Credentials Extractor Automation Script
 
-I am working on an ftp credentials extractor automation script for which I have made local portal in which if you type your email id , password , select your protocol , then server name and port number it will give all the credential details , senders email id and date received about the ftp I tried it on normal outlook account and it working perfectly there but I think maybe due to issues with authentication and companies security protocols its not working with my organization email id i.e. the guycarp one so I need assistance regarding solving this issues I have also attached the screenshots of details and problem I am encountering with this mail.
+Hi Team,
 
-Regards 
-Divyansh Wangnue 
+I hope this message finds you well. I am currently working on an FTP credentials extractor automation script and need some assistance with an issue I am encountering.
+
+### Overview
+- **Project**: FTP Credentials Extractor Automation Script
+- **Functionality**: 
+  - Users can input their email ID and password.
+  - Select the protocol.
+  - Enter server name and port number.
+  - The script then provides all credential details, sender’s email ID, and the date received.
+
+### Current Status
+- The script works perfectly with a normal Outlook account.
+- The problem arises when using the organization's email ID (guycarp.com).
+
+### Problem Encountered
+- **Issue**: The script fails to work with the organization's email ID.
+- **Suspected Cause**: Likely due to authentication issues and the organization's security protocols.
+
+### Actions Taken
+1. **Script Development**: 
+   - Created a local portal for user inputs.
+   - Tested successfully with a normal Outlook account.
+2. **Testing with Organizational Email**: 
+   - Encountered issues with the guycarp.com email ID.
+
+### Assistance Needed
+- **Resolution**: 
+  - Need guidance on resolving authentication and security protocol issues.
+  - Any specific configurations required for the organization's email system.
+
+### Attachments
+- Screenshots of the details and issues encountered with the organizational email ID.
+
+Thank you for your assistance.
+
+Regards,  
+Divyansh Wangnue
