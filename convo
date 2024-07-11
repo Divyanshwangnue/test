@@ -1,3 +1,9 @@
 PS C:\Users\u1324479\OneDrive - MMC\Desktop\extractor> python --version      
 Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases.   
 PS C:\Users\u1324479\OneDrive - MMC\Desktop\extractor> 
+Hi Team , 
+
+I am working on an ftp credentials extractor automation script for which I have made local portal in which if you type your email id , password , select your protocol , then server name and port number it will give all the credential details , senders email id and date received about the ftp I tried it on normal outlook account and it working perfectly there but I think maybe due to issues with authentication and companies security protocols its not working with my organization email id i.e. the guycarp one so I need assistance regarding solving this issues I have also attached the screenshots of details and problem I am encountering with this mail.
+
+Regards 
+Divyansh Wangnue 
