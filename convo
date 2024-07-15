@@ -1,44 +1,64 @@
-PS C:\Users\u1324479\OneDrive - MMC\Desktop\extractor> python --version      
-Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Manage App Execution Aliases.   
-PS C:\Users\u1324479\OneDrive - MMC\Desktop\extractor> 
-Subject: Assistance Required for FTP Credentials Extractor Automation Script
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import shutil
+import os
+import zipfile
+from progress.bar import Bar
+import threading
 
-Hi Team,
+class FolderCompressor(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Folder Compressor")
+        self.geometry("400x200")
 
-I hope this message finds you well. I am currently working on an FTP credentials extractor automation script and need some assistance with an issue I am encountering.
+        self.label = tk.Label(self, text="Drop a folder to compress", pady=20)
+        self.label.pack()
 
-### Overview
-- **Project**: FTP Credentials Extractor Automation Script
-- **Functionality**: 
-  - Users can input their email ID and password.
-  - Select the protocol.
-  - Enter server name and port number.
-  - The script then provides all credential details, sender’s email ID, and the date received.
+        self.progress = tk.DoubleVar()
+        self.progress_bar = tk.ttk.Progressbar(self, variable=self.progress, maximum=100)
+        self.progress_bar.pack(pady=20, fill=tk.X, padx=20)
 
-### Current Status
-- The script works perfectly with a normal Outlook account.
-- The problem arises when using the organization's email ID (guycarp.com).
+        self.compress_button = tk.Button(self, text="Select Folder", command=self.select_folder)
+        self.compress_button.pack(pady=20)
 
-### Problem Encountered
-- **Issue**: The script fails to work with the organization's email ID.
-- **Suspected Cause**: Likely due to authentication issues and the organization's security protocols.
+        self.folder_path = ""
 
-### Actions Taken
-1. **Script Development**: 
-   - Created a local portal for user inputs.
-   - Tested successfully with a normal Outlook account.
-2. **Testing with Organizational Email**: 
-   - Encountered issues with the guycarp.com email ID.
+    def select_folder(self):
+        folder_selected = filedialog.askdirectory()
+        if folder_selected:
+            self.folder_path = folder_selected
+            self.start_compression()
 
-### Assistance Needed
-- **Resolution**: 
-  - Need guidance on resolving authentication and security protocol issues.
-  - Any specific configurations required for the organization's email system.
+    def start_compression(self):
+        thread = threading.Thread(target=self.compress_folder)
+        thread.start()
 
-### Attachments
-- Screenshots of the details and issues encountered with the organizational email ID.
+    def compress_folder(self):
+        if not self.folder_path:
+            return
 
-Thank you for your assistance.
+        folder_name = os.path.basename(self.folder_path)
+        zip_filename = f"{folder_name}.zip"
 
-Regards,  
-Divyansh Wangnue
+        file_count = sum([len(files) for r, d, files in os.walk(self.folder_path)])
+        bar = Bar('Compressing', max=file_count)
+
+        with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            for root, dirs, files in os.walk(self.folder_path):
+                for file in files:
+                    full_path = os.path.join(root, file)
+                    arcname = os.path.relpath(full_path, self.folder_path)
+                    zipf.write(full_path, arcname)
+                    bar.next()
+                    self.progress.set((bar.index / file_count) * 100)
+                    self.update_idletasks()
+        bar.finish()
+
+        messagebox.showinfo("Success", "Folder compressed successfully!")
+        os.startfile(zip_filename)
+        self.progress.set(0)
+
+if __name__ == "__main__":
+    app = FolderCompressor()
+    app.mainloop()
