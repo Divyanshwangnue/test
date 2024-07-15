@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from tkinter import ttk
 import shutil
 import os
 import zipfile
@@ -16,7 +17,7 @@ class FolderCompressor(tk.Tk):
         self.label.pack()
 
         self.progress = tk.DoubleVar()
-        self.progress_bar = tk.ttk.Progressbar(self, variable=self.progress, maximum=100)
+        self.progress_bar = ttk.Progressbar(self, variable=self.progress, maximum=100)
         self.progress_bar.pack(pady=20, fill=tk.X, padx=20)
 
         self.compress_button = tk.Button(self, text="Select Folder", command=self.select_folder)
